@@ -30,7 +30,10 @@ module.exports = function(config) {
 
       // Avoid publishing files when compilation fails
       plugins: [
-        new webpack.NoErrorsPlugin()
+        new webpack.NoErrorsPlugin(),
+        new webpack.DefinePlugin({
+          CONFIG: JSON.stringify(require(path.join(__dirname, 'config', 'test'))),
+        })
       ],
 
       resolve: {

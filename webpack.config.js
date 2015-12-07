@@ -1,6 +1,8 @@
 var path = require('path');
 var webpack = require('webpack');
 
+const REEVOO_ENV = process.env.REEVOO_ENV ? process.env.REEVOO_ENV : 'dev';
+
 module.exports = {
   // Webpack entry point.
   entry: './lib/reevoo-ping.js',
@@ -21,7 +23,11 @@ module.exports = {
 
   plugins: [
     // Avoid publishing files when compilation fails
-    new webpack.NoErrorsPlugin()
+    new webpack.NoErrorsPlugin(),
+
+    new webpack.DefinePlugin({
+      CONFIG: JSON.stringify(require(path.join(__dirname, 'config', REEVOO_ENV))),
+    })
   ],
 
   stats: {
