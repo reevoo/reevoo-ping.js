@@ -6,6 +6,6 @@ describe('Reevoo ping', () => {
   });
 
   it('defines reevooPing', () => {
-    expect(reevooPing).toBeDefined();
+    expect(window.reevooPing).toBeDefined();
   });
-})
+});

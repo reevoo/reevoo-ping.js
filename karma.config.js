@@ -23,7 +23,8 @@ module.exports = function(config) {
       // Run babel-loader on each file
       module: {
         loaders: [
-          { test: /\.js$/, loader: 'babel-loader', query: { presets: 'es2015' } }
+          { test: /\.js$/, loader: 'babel-loader', query: { presets: 'es2015' } },
+          { test:  /\.js$/, loader: "eslint-loader", exclude: /node_modules/ }
         ]
       },
 
