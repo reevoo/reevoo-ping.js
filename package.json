@@ -4,18 +4,13 @@
   "description": "Reevoo-specific event sending client.",
   "main": "dist/reevoo-ping.js",
   "scripts": {
-
     "build:dev": "webpack -d",
     "build:dev:watch": "webpack -d --watch",
     "build:prod": "webpack -p",
-
     "test": "karma start karma.config.js --single-run",
     "test:watch": "karma start karma.config.js",
-
     "serve": "webpack-dev-server --content-base ./demo --inline",
-
     "watch": "npm run serve & npm run build:dev:watch & npm run test:watch"
-    
   },
   "repository": {
     "type": "git",
