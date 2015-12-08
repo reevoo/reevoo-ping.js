@@ -12,7 +12,10 @@
     <!-- Ping! I choose you! -->
     <script type="text/javascript" src="reevoo-ping.js"></script>
     <script type="text/javascript">
-      reevooPing();
+      // Option 1: Custom Event Collection
+      reevooPing.sendEventsWhen([
+        'page viewed',
+      ]);
     </script>
   </body>
 </html>

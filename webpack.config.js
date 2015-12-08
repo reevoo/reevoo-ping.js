@@ -10,14 +10,14 @@ module.exports = {
   // Output definition.
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'reevoo-ping.js'
+    filename: 'reevoo-ping.js',
   },
 
   // Define loaders for webpack transpilation.
   module: {
     loaders: [
       {test: path.join(__dirname, 'lib'), loader: 'babel-loader', query: { presets: 'es2015' }},
-      {test: path.join(__dirname, 'lib'), loader: "eslint-loader", exclude: /node_modules/}
+      {test: path.join(__dirname, 'lib'), loader: "eslint-loader", exclude: /node_modules/},
     ]
   },
 
@@ -27,7 +27,7 @@ module.exports = {
 
     new webpack.DefinePlugin({
       CONFIG: JSON.stringify(require(path.join(__dirname, 'config', REEVOO_ENV))),
-    })
+    }),
   ],
 
   stats: {
