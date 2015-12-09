@@ -4,7 +4,29 @@
 
 ## Client Usage
 
-TODO: Write client usage instructions!
+Get it on the page and get it set up:
+
+```html
+<!-- Ping! I choose you! -->
+<script type="text/javascript" src="reevoo-ping.js"></script>
+<script type="text/javascript">
+  // Option 1: Custom Event Collection
+  reevooPing.sendEventsWhen([
+    'page viewed',
+    'badge seen',
+    'badge rendered',
+    'badge notRendered notEnoughReviews',
+    'badge notRendered noProduct',
+  ]);
+
+  // Option 2: Named Event Set
+  reevooPing.sendEventSet('reevoo mark lightbox');
+</script>
+```
+
+A list of Events can be found in [lib/events](lib/events).
+
+A list of Event Sets can be found in [lib/event_sets](lib/event_sets).
 
 ## Development
 
