@@ -1,6 +1,17 @@
-import event from 'lib/events/page/viewed';
+import eventInjector from 'inject!lib/events/page/viewed';
 
 describe('lib/events/page/viewed', () => {
+  let event;
+  let snowplow;
+
+  beforeEach(() => {
+    snowplow = jasmine.createSpy('snowplow');
+
+    event = eventInjector({
+      '../../snowplow': snowplow,
+    }).default;
+  });
+
   describe('.attach', () => {
     let trigger;
 
@@ -17,7 +28,7 @@ describe('lib/events/page/viewed', () => {
   describe('.trigger', () => {
     it('fires snowplow\'s trackPageView', () => {
       event.trigger();
-      pending('How do I spy on snowplow?');
+      expect(snowplow).toHaveBeenCalledWith('trackPageView');
     });
   });
 });
