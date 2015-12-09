@@ -11,7 +11,7 @@ describe('lib/snowplow', () => {
 
     snowplow = snowplowInjector({
       './snowplow/bootstrap': internalSnowplow,
-      './debug': debug,
+      './messages': { debug },
     }).default;
   });
 
