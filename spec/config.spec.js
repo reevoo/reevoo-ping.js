@@ -1,4 +1,4 @@
-import config from 'lib/config';
+import * as config from 'lib/config';
 
 describe('lib/config', () => {
   it('has settings available', () => {
