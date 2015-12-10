@@ -4,7 +4,14 @@
 
 ## Client Usage
 
-TODO: Write client usage instructions!
+<!-- Ping! I choose you! -->
+<script type="text/javascript" src="reevoo-ping.js"></script>
+<script type="text/javascript">
+  // When you want to use it...
+  reevooPing.trackPageView();
+</script>
+
+The tracking events you can use are all defined in [lib/reevoo-ping.js](lib/reevoo-ping.js).
 
 ## Development
 

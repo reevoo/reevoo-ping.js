@@ -12,7 +12,28 @@
     <!-- Ping! I choose you! -->
     <script type="text/javascript" src="reevoo-ping.js"></script>
     <script type="text/javascript">
-      reevooPing();
+      var ping = new ReevooPing({
+        trkref: 'TRKREF',
+      });
+
+      ping.heartbeat();
+
+      ping.badgeRendered({
+        hit_type: 'hit',
+        sku: 'SKU',
+        average_score: 9.2,
+        badge_type: 'product_reviews',
+        badge_variant: 'default',
+        badge_name: 'terry',
+      });
+
+      ping.badgeSeen({
+        sku: 'SKU',
+        average_score: 9.2,
+        badge_type: 'product_reviews',
+        badge_variant: 'default',
+        badge_name: 'terry',
+      });
     </script>
   </body>
 </html>
