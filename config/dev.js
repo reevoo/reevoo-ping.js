@@ -1,4 +1,4 @@
 module.exports = {
-  COLLECTOR_URI: 'https://ping-url',
+  COLLECTOR_URI: 'ping.url',
   DEBUG: true,
 };
