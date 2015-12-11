@@ -61,26 +61,81 @@ describe('lib/reevoo-ping', () => {
   });
 
   describe('.badgeRendered', () => {
-    const badgeParams = {
-      hit_type: 'hit',
-      sku: 'SKU',
-      average_score: 9.2,
-      badge_type: 'product_reviews',
-      badge_variant: 'default',
-      badge_name: 'terry',
-    };
+    let badgeRenderedParams;
+
+    beforeEach(() => {
+      badgeRenderedParams = {
+        hit_type: 'hit',
+        sku: 'SKU',
+        average_score: 9.2,
+        badge_type: 'product_reviews',
+        badge_variant: 'default',
+        badge_name: 'terry',
+      };
+    });
 
     it('calls Snowplow', () => {
-      ping.badgeRendered(badgeParams);
+      ping.badgeRendered(badgeRenderedParams);
       expect(snowplow).toHaveBeenCalled();
     });
 
     it('raises an error if hit type is not supplied', () => {
-      badgeParams.hit_type = undefined;
+      badgeRenderedParams.hit_type = undefined;
 
       expect(() => {
-        ping.badgeRendered(badgeParams);
-      }).toThrowError(/hit_type/);
+        ping.badgeRendered(badgeRenderedParams);
+      }).toThrowError(/Hit type/);
+    });
+
+    it('raises an error if badge type is not supplied', () => {
+      badgeRenderedParams.badge_type = undefined;
+
+      expect(() => {
+        ping.badgeRendered(badgeRenderedParams);
+      }).toThrowError(/Badge type/);
+    });
+
+    it('raises an error if badge name is not supplied', () => {
+      badgeRenderedParams.badge_name = undefined;
+
+      expect(() => {
+        ping.badgeRendered(badgeRenderedParams);
+      }).toThrowError(/Badge name/);
+    });
+  });
+
+  describe('.badgeSeen', () => {
+    let badgeSeenParams;
+
+    beforeEach(() => {
+      badgeSeenParams = {
+        sku: 'SKU',
+        average_score: 9.2,
+        badge_type: 'product_reviews',
+        badge_variant: 'default',
+        badge_name: 'terry',
+      };
+    });
+
+    it('calls Snowplow', () => {
+      ping.badgeSeen(badgeSeenParams);
+      expect(snowplow).toHaveBeenCalled();
+    });
+
+    it('raises an error if badge type is not supplied', () => {
+      badgeSeenParams.badge_type = undefined;
+
+      expect(() => {
+        ping.badgeSeen(badgeSeenParams);
+      }).toThrowError(/Badge type/);
+    });
+
+    it('raises an error if badge name is not supplied', () => {
+      badgeSeenParams.badge_name = undefined;
+
+      expect(() => {
+        ping.badgeSeen(badgeSeenParams);
+      }).toThrowError(/Badge name/);
     });
   });
 });
