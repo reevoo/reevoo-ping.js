@@ -34,16 +34,20 @@ describe('lib/reevoo-ping', () => {
     ping = new ReevooPing({ trkref: 'TRKREF' });
   });
 
+  it('has page events', () => {
+    expect(ping.page).toBeDefined();
+  });
+
   describe('.pageViewed', () => {
     it('calls Snowplow', () => {
-      ping.pageViewed();
+      ping.page.viewed();
       expect(snowplow).toHaveBeenCalledWith('trackPageView');
     });
   });
 
   describe('.heartbeat', () => {
     it('calls Snowplow', () => {
-      ping.heartbeat();
+      ping.page.heartbeat();
       expect(snowplow).toHaveBeenCalledWith(
         'enableActivityTracking',
         jasmine.anything(),
@@ -52,10 +56,10 @@ describe('lib/reevoo-ping', () => {
     });
 
     it('raises an error if called after .pageViewed', () => {
-      ping.pageViewed();
+      ping.page.viewed();
 
       expect(() => {
-        ping.heartbeat();
+        ping.page.heartbeat();
       }).toThrowError(/pageViewed/);
     });
   });
