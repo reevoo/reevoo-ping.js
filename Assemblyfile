@@ -1,0 +1,11 @@
+[application]
+name = "reevoo-ping.js"
+repo = "quay.io/reevoo/soapbox_client"
+
+[build]
+builder = "frontendJS"
+version = "4.2.1"
+script = [
+  "npm test",
+  "npm run build:prod",
+]
