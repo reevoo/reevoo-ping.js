@@ -41,6 +41,14 @@ describe('lib/events/badge', () => {
       }).toThrowError(/Hit type/);
     });
 
+    it('raises an error if hit type is not valid', () => {
+      badgeRenderedParams.hit_type = 'NOT_A_REAL_HIT_TYPE';
+
+      expect(() => {
+        badge.rendered(badgeRenderedParams);
+      }).toThrowError();
+    });
+
     it('raises an error if badge type is not supplied', () => {
       badgeRenderedParams.badge_type = undefined;
 
