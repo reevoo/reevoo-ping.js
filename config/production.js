@@ -1,4 +1,4 @@
 module.exports = {
-  COLLECTOR_URI: 'ping.url',
+  COLLECTOR_URI: 'skynet.reevoo.com',
   DEBUG: false,
 };
