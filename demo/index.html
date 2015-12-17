@@ -16,9 +16,9 @@
         trkref: 'TRKREF',
       });
 
-      ping.heartbeat();
+      ping.page.heartbeat();
 
-      ping.badgeRendered({
+      ping.badge.rendered({
         hit_type: 'hit',
         sku: 'SKU',
         average_score: 9.2,
@@ -27,7 +27,7 @@
         badge_name: 'terry',
       });
 
-      ping.badgeSeen({
+      ping.badge.seen({
         sku: 'SKU',
         average_score: 9.2,
         badge_type: 'product_reviews',
