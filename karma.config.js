@@ -52,6 +52,10 @@ module.exports = function(config) {
       devtool: 'inline-source-map',
     },
 
+    webpackServer: {
+      quiet: true,
+    },
+
     // More Karma configuration
     reporters: ['dots'],
     logLevel: config.LOG_INFO,

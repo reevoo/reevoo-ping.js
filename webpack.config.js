@@ -25,10 +25,16 @@ module.exports = {
     // Avoid publishing files when compilation fails
     new webpack.NoErrorsPlugin(),
 
+    // Load config or the building environment
     new webpack.DefinePlugin({
       CONFIG: JSON.stringify(require(path.join(__dirname, 'config', REEVOO_ENV))),
     })
   ],
+
+  // Only output warnings and errors.
+  devServer: {
+    stats: 'errors-only',
+  },
 
   stats: {
     // Nice colored output

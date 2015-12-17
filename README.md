@@ -4,7 +4,34 @@
 
 ## Client Usage
 
-TODO: Write client usage instructions!
+<!-- Ping! I choose you! -->
+<script type="text/javascript" src="reevoo-ping.js"></script>
+<script type="text/javascript">
+  // When you want to use it...
+  reevooPing.page.viewed();
+</script>
+
+## Events
+
+When an event occurs, you should call one of the reevooPing event functions.
+
+### Page Events
+Page events require no arguments.
+
+- `reevooPing.page.viewed()` when you want to track a page being viewed.
+- `reevooPing.page.heartbeat()` to send ping events at regular intervals.
+
+### Badge Events
+Badge events require an object as an argument with the following fields:
+
+- `badge_name`, required. 
+- `badge_type`, required.
+- `trkref`, optional (defaults to the trkref used to initialise ReevooPing).
+
+The events are:
+
+- `reevooPing.badge.rendered(opts)` when a badge has been requested and displayed. Requires a `hit_type` field as part of `opts`, which must be one of the [VALID_HIT_TYPES](lib/events/badge.js).
+- `reevooPing.badge.seen(opts)` when a badge enters the browser's viewport.
 
 ## Development
 
