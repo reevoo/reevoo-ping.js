@@ -4,12 +4,19 @@
 
 ## Client Usage
 
+```html
 <!-- Ping! I choose you! -->
 <script type="text/javascript" src="reevoo-ping.js"></script>
 <script type="text/javascript">
-  // When you want to use it...
+  // Set it up (once per page)...
+  reevooPing = new ReevooPing({
+    trkref: 'REV',
+  });
+
+  // Ready to receive events!
   reevooPing.page.viewed();
 </script>
+```
 
 ## Events
 
