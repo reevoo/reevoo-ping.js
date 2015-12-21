@@ -6,7 +6,7 @@
   "scripts": {
     "build:dev": "webpack -d",
     "build:dev:watch": "webpack -d --watch",
-    "build:prod": "webpack -p",
+    "build:prod": "REEVOO_ENV=production webpack -p",
     "test": "karma start karma.config.js --single-run",
     "test:watch": "karma start karma.config.js",
     "serve": "webpack-dev-server --content-base ./demo --inline",

@@ -18,6 +18,8 @@
 </script>
 ```
 
+ReevooPing sends events to https://skynet.reevoo.com; make sure your page's security policy allows this.
+
 ## Events
 
 When an event occurs, you should call one of the reevooPing event functions.
