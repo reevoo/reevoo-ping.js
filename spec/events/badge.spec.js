@@ -65,6 +65,22 @@ describe('lib/events/badge', () => {
         badge.rendered(badgeRenderedParams);
       }).toThrowError(/Trkref/);
     });
+
+    it('includes a JSON-encoded string of the options given', () => {
+      const expectedJsonString = JSON.stringify(badgeRenderedParams);
+
+      badge.rendered(badgeRenderedParams);
+
+      // payload.data.fullBadgeParams contains our JSON string.
+      expect(snowplow).toHaveBeenCalledWith(
+        jasmine.anything(),
+        jasmine.objectContaining({
+          data: jasmine.objectContaining({
+            fullBadgeParams: expectedJsonString,
+          }),
+        })
+      );
+    });
   });
 
   describe('.seen', () => {
