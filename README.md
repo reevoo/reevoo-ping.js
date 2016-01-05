@@ -28,7 +28,7 @@ When an event occurs, you should call one of the reevooPing event functions.
 Page events require no arguments.
 
 - `reevooPing.page.viewed()` when you want to track a page being viewed.
-- `reevooPing.page.heartbeat()` to send ping events at regular intervals.
+- `reevooPing.page.heartbeat()` to send ping events at regular intervals. Once called, this will continuously send events at the interval specified in [lib/events/page.js](https://github.com/reevoo/reevoo-ping.js/blob/master/lib/events/page.js#L9).
 
 ### Badge Events
 Badge events require an object as an argument with the following fields:
