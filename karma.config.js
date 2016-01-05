@@ -53,7 +53,7 @@ module.exports = function(config) {
     },
 
     webpackServer: {
-      quiet: true,
+      stats: 'errors-only',
     },
 
     // More Karma configuration
