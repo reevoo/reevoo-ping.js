@@ -20,6 +20,7 @@ describe('lib/events/badge', () => {
     beforeEach(() => {
       badgeRenderedParams = {
         hit_type: 'hit',
+        trkref: 'TRKREF',
         sku: 'SKU',
         average_score: 9.2,
         badge_type: 'product_reviews',
@@ -57,12 +58,28 @@ describe('lib/events/badge', () => {
       }).toThrowError(/Badge type/);
     });
 
-    it('raises an error if badge name is not supplied', () => {
-      badgeRenderedParams.badge_name = undefined;
+    it('raises an error if trkref is not supplied', () => {
+      badgeRenderedParams.trkref = undefined;
 
       expect(() => {
         badge.rendered(badgeRenderedParams);
-      }).toThrowError(/Badge name/);
+      }).toThrowError(/Trkref/);
+    });
+
+    it('includes a JSON-encoded string of the options given', () => {
+      const expectedJsonString = JSON.stringify(badgeRenderedParams);
+
+      badge.rendered(badgeRenderedParams);
+
+      // payload.data.fullBadgeParams contains our JSON string.
+      expect(snowplow).toHaveBeenCalledWith(
+        jasmine.anything(),
+        jasmine.objectContaining({
+          data: jasmine.objectContaining({
+            fullBadgeParams: expectedJsonString,
+          }),
+        })
+      );
     });
   });
 
@@ -71,6 +88,7 @@ describe('lib/events/badge', () => {
 
     beforeEach(() => {
       badgeSeenParams = {
+        trkref: 'TRKREF',
         sku: 'SKU',
         average_score: 9.2,
         badge_type: 'product_reviews',
@@ -84,20 +102,20 @@ describe('lib/events/badge', () => {
       expect(snowplow).toHaveBeenCalled();
     });
 
+    it('raises an error if trkref is not supplied', () => {
+      badgeSeenParams.trkref = undefined;
+
+      expect(() => {
+        badge.seen(badgeSeenParams);
+      }).toThrowError(/Trkref/);
+    });
+
     it('raises an error if badge type is not supplied', () => {
       badgeSeenParams.badge_type = undefined;
 
       expect(() => {
         badge.seen(badgeSeenParams);
       }).toThrowError(/Badge type/);
-    });
-
-    it('raises an error if badge name is not supplied', () => {
-      badgeSeenParams.badge_name = undefined;
-
-      expect(() => {
-        badge.seen(badgeSeenParams);
-      }).toThrowError(/Badge name/);
     });
   });
 });

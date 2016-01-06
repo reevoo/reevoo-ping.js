@@ -10,7 +10,8 @@
     "test": "karma start karma.config.js --single-run",
     "test:watch": "karma start karma.config.js",
     "serve": "webpack-dev-server --content-base ./demo --inline",
-    "watch": "npm run serve & npm run build:dev:watch & npm run test:watch"
+    "watch": "npm run serve & npm run build:dev:watch & npm run test:watch",
+    "prepublish": "npm run build:prod"
   },
   "repository": {
     "type": "git",
