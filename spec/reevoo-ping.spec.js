@@ -8,20 +8,20 @@ describe('lib/reevoo-ping', () => {
   describe('.constructor', () => {
     it('throws an error if the trkref is not given', () => {
       expect(() => {
-        new ReevooPing({}); // eslint-disable-line no-new
+        new ReevooPing.Client({}); // eslint-disable-line no-new
       }).toThrowError(/Trkref/);
     });
 
     it('returns object with valid options', () => {
       expect(() => {
-        new ReevooPing({ trkref: 'TRKREF' }); // eslint-disable-line no-new
+        new ReevooPing.Client({ trkref: 'TRKREF' }); // eslint-disable-line no-new
       }).not.toThrowError();
     });
   });
 
   let ping;
   beforeEach(() => {
-    ping = new ReevooPing({ trkref: 'TRKREF' });
+    ping = new ReevooPing.Client({ trkref: 'TRKREF' });
   });
 
   it('has page events', () => {

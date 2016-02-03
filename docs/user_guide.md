@@ -24,7 +24,7 @@ To get started, add the following to any page you want to use ReevooPing on:
 <script type="text/javascript" src="reevoo-ping.js"></script>
 <script type="text/javascript">
   // Set it up (once per page)...
-  reevooPing = new ReevooPing({
+  reevooPing = new ReevooPing.Client({
     trkref: 'REV',
   });
 
@@ -35,13 +35,19 @@ To get started, add the following to any page you want to use ReevooPing on:
 
 ## Integrating ReevooPing into other JavaScript
 
-ReevooPing is available as an NPM package that includes a pre-built, self-contained version of itself in the `node_modules/reevoo-ping.js/dist` folder. Alternatively, you can use it as an ES6 module once installed:
+ReevooPing is available as an NPM package:
+
+```bash
+npm install --save reevoo-ping.js
+```
+
+You can use it as an ES6 module once installed:
 
 ```js
-import ReevooPing from 'reevoo-ping.js/reevoo-ping';
+import ReevooPing from 'reevoo-ping.js';
 
 // Set it up (once per library)...
-const reevooPing = new ReevooPing({
+const reevooPing = new ReevooPing.Client({
   trkref: 'REV',
 });
 

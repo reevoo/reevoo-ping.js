@@ -10,7 +10,9 @@ module.exports = {
   // Output definition.
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'reevoo-ping.js'
+    filename: 'reevoo-ping.js',
+    library: 'ReevooPing',
+    libraryTarget: 'umd',
   },
 
   // Define loaders for webpack transpilation.
