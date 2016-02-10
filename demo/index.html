@@ -9,12 +9,22 @@
   </head>
   <body>
 
+
+    <button onclick="clickHandler()">Fire dockOpened event!</button>
+
     <!-- Ping! I choose you! -->
     <script type="text/javascript" src="reevoo-ping.js"></script>
     <script type="text/javascript">
       var ping = new ReevooPing.Client({
         trkref: 'TRKREF',
       });
+
+      function clickHandler(event) {
+        ping.experiences.dockOpened({
+          client_id: '72f3b8f7-05c6-4cc0-8d43-b72d1a656899',
+          filters: ['fakefilter_1', 'fakefilter_2']
+        });
+      }
 
       ping.page.heartbeat();
 
@@ -37,4 +47,3 @@
     </script>
   </body>
 </html>
-
