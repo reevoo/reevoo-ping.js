@@ -50,5 +50,21 @@ describe('lib/events/experiences', () => {
         experiences.dockOpened(dockOpenedParams);
       }).toThrowError(/Filters/);
     });
+
+    it('includes a JSON-encoded string of the options given', () => {
+      const expectedJsonString = JSON.stringify(dockOpenedParams);
+
+      experiences.dockOpened(dockOpenedParams);
+
+      // payload.data.fullDockOpenedParams contains our JSON string.
+      expect(snowplow).toHaveBeenCalledWith(
+        jasmine.anything(),
+        jasmine.objectContaining({
+          data: jasmine.objectContaining({
+            fullDockOpenedParams: expectedJsonString,
+          }),
+        })
+      );
+    });
   });
 });
