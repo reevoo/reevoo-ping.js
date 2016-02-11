@@ -9,8 +9,8 @@
   </head>
   <body>
 
-
-    <button onclick="clickHandler()">Fire dockOpened event!</button>
+    <button onclick="clickHandler('open')">Dock toggled open event!</button>
+    <button onclick="clickHandler('closed')">Dock toggled closed event!</button>
 
     <!-- Ping! I choose you! -->
     <script type="text/javascript" src="reevoo-ping.js"></script>
@@ -19,10 +19,11 @@
         trkref: 'TRKREF',
       });
 
-      function clickHandler(event) {
-        ping.experiences.dockOpened({
+      function clickHandler(state) {
+        ping.experiences.dockToggled({
           client_id: '72f3b8f7-05c6-4cc0-8d43-b72d1a656899',
-          filters: ['fakefilter_1', 'fakefilter_2']
+          filters: ['fakefilter_1', 'fakefilter_2'],
+          open: state === "open",
         });
       }
 

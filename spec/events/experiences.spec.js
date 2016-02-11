@@ -13,55 +13,64 @@ describe('lib/events/experiences', () => {
   });
 
   describe('.button_click', () => {
-    let dockOpenedParams;
+    let dockToggledParams;
 
     beforeEach(() => {
-      dockOpenedParams = {
+      dockToggledParams = {
         client_id: '72f3b8f7-05c6-4cc0-8d43-b72d1a656899',
         filters: ['fakefilter_1', 'fakefilter_2'],
+        open: true,
       };
     });
 
     it('calls Snowplow', () => {
-      experiences.dockOpened(dockOpenedParams);
+      experiences.dockToggled(dockToggledParams);
       expect(snowplow).toHaveBeenCalled();
     });
 
     it('raises an error if client id is not supplied', () => {
-      dockOpenedParams.client_id = undefined;
+      dockToggledParams.client_id = undefined;
 
       expect(() => {
-        experiences.dockOpened(dockOpenedParams);
+        experiences.dockToggled(dockToggledParams);
       }).toThrowError(/Client id/);
     });
 
     it('raises an error if client id is not a valid UUID', () => {
-      dockOpenedParams.client_id = 'NOT_A_REAL_CLIENT_ID';
+      dockToggledParams.client_id = 'NOT_A_REAL_CLIENT_ID';
 
       expect(() => {
-        experiences.dockOpened(dockOpenedParams);
+        experiences.dockToggled(dockToggledParams);
       }).toThrowError();
     });
 
     it('raises an error if filters is not supplied', () => {
-      dockOpenedParams.filters = undefined;
+      dockToggledParams.filters = undefined;
 
       expect(() => {
-        experiences.dockOpened(dockOpenedParams);
+        experiences.dockToggled(dockToggledParams);
       }).toThrowError(/Filters/);
     });
 
+    it('raises an error if open is not supplied', () => {
+      dockToggledParams.open = undefined;
+
+      expect(() => {
+        experiences.dockToggled(dockToggledParams);
+      }).toThrowError(/Open/);
+    });
+
     it('includes a JSON-encoded string of the options given', () => {
-      const expectedJsonString = JSON.stringify(dockOpenedParams);
+      const expectedJsonString = JSON.stringify(dockToggledParams);
 
-      experiences.dockOpened(dockOpenedParams);
+      experiences.dockToggled(dockToggledParams);
 
-      // payload.data.fullDockOpenedParams contains our JSON string.
+      // payload.data.fullDockToggledParams contains our JSON string.
       expect(snowplow).toHaveBeenCalledWith(
         jasmine.anything(),
         jasmine.objectContaining({
           data: jasmine.objectContaining({
-            fullDockOpenedParams: expectedJsonString,
+            fullDockToggledParams: expectedJsonString,
           }),
         })
       );
