@@ -6,12 +6,6 @@ describe('lib/reevoo-ping', () => {
   });
 
   describe('.constructor', () => {
-    it('throws an error if the trkref is not given', () => {
-      expect(() => {
-        new ReevooPing.Client({}); // eslint-disable-line no-new
-      }).toThrowError(/Trkref/);
-    });
-
     it('returns object with valid options', () => {
       expect(() => {
         new ReevooPing.Client({ trkref: 'TRKREF' }); // eslint-disable-line no-new
