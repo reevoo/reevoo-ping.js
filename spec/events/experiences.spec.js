@@ -18,7 +18,6 @@ describe('lib/events/experiences', () => {
     beforeEach(() => {
       dockToggledParams = {
         client_id: '72f3b8f7-05c6-4cc0-8d43-b72d1a656899',
-        filters: ['fakefilter_1', 'fakefilter_2'],
         open: true,
       };
     });
@@ -42,14 +41,6 @@ describe('lib/events/experiences', () => {
       expect(() => {
         experiences.dockToggled(dockToggledParams);
       }).toThrowError();
-    });
-
-    it('raises an error if filters is not supplied', () => {
-      dockToggledParams.filters = undefined;
-
-      expect(() => {
-        experiences.dockToggled(dockToggledParams);
-      }).toThrowError(/Filters/);
     });
 
     it('raises an error if open is not supplied', () => {
