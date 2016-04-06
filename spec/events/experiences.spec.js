@@ -19,6 +19,7 @@ describe('lib/events/experiences', () => {
       dockToggledParams = {
         client_id: '72f3b8f7-05c6-4cc0-8d43-b72d1a656899',
         open: true,
+        filters: ['foo', 'bar'],
       };
     });
 
