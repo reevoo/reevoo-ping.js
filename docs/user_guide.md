@@ -79,6 +79,20 @@ The events are:
 - `reevooPing.badge.rendered(opts)` when a badge has been requested and displayed. Requires a `hit_type` field as part of `opts`, which must be one of the [VALID_HIT_TYPES](../lib/events/badge.js).
 - `reevooPing.badge.seen(opts)` when a badge enters the browser's viewport.
 
+### Experiences Events
+
+Supported events:
+
+- `reevooPing.experiences.dockToggled(opts)` when a dock is toggled. Example:
+
+```js
+reevooPing.experiences.dockToggled({
+  client_id: '72f3b8f7-05c6-4cc0-8d43-b72d1a656899', // required string value
+  open: true,                                        // required boolean value
+  filters: ['foo', 'bar'],                           // required array value
+});
+```
+
 ## Troubleshooting
 
 - ReevooPing sends events to https://skynet.reevoo.com; make sure your page's security policy allows this.
