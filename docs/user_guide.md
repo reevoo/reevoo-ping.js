@@ -24,7 +24,7 @@ To get started, add the following to any page you want to use ReevooPing on:
 <script type="text/javascript" src="reevoo-ping.js"></script>
 <script type="text/javascript">
   // Set it up (once per page)...
-  reevooPing = new ReevooPing.Client({
+  reevooPing = new ReevooPing.Client('my-app', {
     trkref: 'REV',
   });
 
@@ -47,7 +47,7 @@ You can use it as an ES6 module once installed:
 import ReevooPing from 'reevoo-ping.js';
 
 // Set it up (once per library)...
-const reevooPing = new ReevooPing.Client({
+const reevooPing = new ReevooPing.Client('my-app', {
   trkref: 'REV',
 });
 
@@ -70,7 +70,7 @@ Page events require no arguments.
 ### Badge Events
 Badge events require an object as an argument with the following fields:
 
-- `badge_name`, required. 
+- `badge_name`, required.
 - `badge_type`, required.
 - `trkref`, optional (defaults to the trkref used to initialise ReevooPing).
 

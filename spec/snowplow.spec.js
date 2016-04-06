@@ -15,17 +15,6 @@ describe('lib/snowplow', () => {
     }).default;
   });
 
-  describe('after it is required', () => {
-    it('adds a newTracker event to the snowplow queue', () => {
-      expect(internalSnowplow).toHaveBeenCalledWith(
-        'newTracker',
-        jasmine.anything(),
-        jasmine.anything(),
-        jasmine.anything()
-      );
-    });
-  });
-
   describe('export', () => {
     it('exports a function', () => {
       expect(snowplow).toBeDefined();

@@ -19,7 +19,7 @@ module.exports = {
   // Define loaders for webpack transpilation.
   module: {
     loaders: [
-      {test: path.join(__dirname, 'lib'), loader: 'babel-loader', query: { presets: 'es2015' }},
+      {test: path.join(__dirname, 'lib'), loader: 'babel-loader', query: { presets: ['es2015', 'stage-1'] }},
       {test: path.join(__dirname, 'lib'), loader: "eslint-loader"}
     ]
   },
