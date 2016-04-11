@@ -20,6 +20,8 @@
   "ecmaFeatures": {},
   "globals": {},
   "rules": {
-    "no-unused-vars": [1, {"vars": "all", "args": "after-used"}]
+    "no-unused-vars": [1, {"vars": "all", "args": "after-used"}],
+    "no-multi-spaces": [1, { exceptions: { "VariableDeclarator": true, "ImportDeclaration": true } }],
+    "key-spacing": [1, { align: "value" }]
   }
 }
