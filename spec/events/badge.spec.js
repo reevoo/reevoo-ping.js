@@ -116,50 +116,73 @@ describe('lib/events/badge', () => {
       );
     });
 
-    it('determines CTA page use from badgeVariant', () => {
-      badgeRenderedParams.ctaPageUse = undefined;
-      badgeRenderedParams.badgeVariant = 'my_listing123';
-      badge.rendered(badgeRenderedParams);
+    describe('determines CTA page use', () => {
+      it('uses multi_reviewable if badgeVariant contains listing', () => {
+        badge.rendered({ ...badgeRenderedParams, ctaPageUse: undefined, badgeVariant: 'my_listing123' });
 
-      expect(snowplow).toHaveBeenCalledWith(
-        jasmine.anything(),
-        jasmine.objectContaining({
-          data: jasmine.objectContaining({
-            ctaPageUse: 'multi_reviewable',
-          }),
-        })
-      );
+        expect(snowplow).toHaveBeenCalledWith(
+          jasmine.anything(),
+          jasmine.objectContaining({
+            data: jasmine.objectContaining({
+              ctaPageUse: 'multi_reviewable',
+            }),
+          })
+        );
+      });
+
+      it('uses multi_reviewable if badgeVariant contains category', () => {
+        badge.rendered({ ...badgeRenderedParams, ctaPageUse: undefined, badgeVariant: 'my_category123' });
+
+        expect(snowplow).toHaveBeenCalledWith(
+          jasmine.anything(),
+          jasmine.objectContaining({
+            data: jasmine.objectContaining({
+              ctaPageUse: 'multi_reviewable',
+            }),
+          })
+        );
+      });
+
+      it('uses single_reviewable otherwise', () => {
+        badge.rendered({ ...badgeRenderedParams, ctaPageUse: undefined, badgeVariant: 'my_foo123' });
+
+        expect(snowplow).toHaveBeenCalledWith(
+          jasmine.anything(),
+          jasmine.objectContaining({
+            data: jasmine.objectContaining({
+              ctaPageUse: 'single_reviewable',
+            }),
+          })
+        );
+      });
     });
 
-    it('determines CTA style from badgeName', () => {
-      badgeRenderedParams.ctaStyle = undefined;
-      badgeRenderedParams.badgeName = 'my_badge';
-      badgeRenderedParams.badgeVariant = 'default';
-      badge.rendered(badgeRenderedParams);
+    describe('determines CTA style', () => {
+      it('uses badgeName if available', () => {
+        badge.rendered({ ...badgeRenderedParams, ctaStyle: undefined, badgeName: 'my_badge', badgeVariant: 'default' });
 
-      expect(snowplow).toHaveBeenCalledWith(
-        jasmine.anything(),
-        jasmine.objectContaining({
-          data: jasmine.objectContaining({
-            ctaStyle: 'my_badge',
-          }),
-        })
-      );
-    });
+        expect(snowplow).toHaveBeenCalledWith(
+          jasmine.anything(),
+          jasmine.objectContaining({
+            data: jasmine.objectContaining({
+              ctaStyle: 'my_badge',
+            }),
+          })
+        );
+      });
 
-    it('determines CTA style from badgeVariant', () => {
-      badgeRenderedParams.ctaStyle = undefined;
-      badgeRenderedParams.badgeVariant = 'default';
-      badge.rendered(badgeRenderedParams);
+      it('uses badgeVariant if badgeName not available', () => {
+        badge.rendered({ ...badgeRenderedParams, ctaStyle: undefined, badgeName: undefined, badgeVariant: 'default' });
 
-      expect(snowplow).toHaveBeenCalledWith(
-        jasmine.anything(),
-        jasmine.objectContaining({
-          data: jasmine.objectContaining({
-            ctaStyle: 'default',
-          }),
-        })
-      );
+        expect(snowplow).toHaveBeenCalledWith(
+          jasmine.anything(),
+          jasmine.objectContaining({
+            data: jasmine.objectContaining({
+              ctaStyle: 'default',
+            }),
+          })
+        );
+      });
     });
   });
 
