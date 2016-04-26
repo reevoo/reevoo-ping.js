@@ -4,9 +4,15 @@ describe('lib/events/badge', () => {
   let Badge;
   let badge;
   let snowplow;
+  let consoleError;
+
+  function expectItReportsError(matchMessage) {
+    expect(consoleError).toHaveBeenCalledWith(jasmine.stringMatching(matchMessage));
+  }
 
   beforeEach(() => {
     snowplow = jasmine.createSpy('snowplow');
+    consoleError = spyOn(console, 'error');
     Badge = badgeInjector({
       '../snowplow': snowplow,
     }).default;
@@ -40,44 +46,34 @@ describe('lib/events/badge', () => {
       );
     });
 
-    it('raises an error if hit type is not supplied', () => {
+    it('reports an error if hit type is not supplied', () => {
       badgeRenderedParams.hitType = undefined;
-
-      expect(() => {
-        badge.rendered(badgeRenderedParams);
-      }).toThrowError(/Hit type/);
+      badge.rendered(badgeRenderedParams);
+      expectItReportsError(/Hit type/);
     });
 
-    it('raises an error if hit type is not valid', () => {
+    it('reports an error if hit type is not valid', () => {
       badgeRenderedParams.hitType = 'NOT_A_REAL_HIT_TYPE';
-
-      expect(() => {
-        badge.rendered(badgeRenderedParams);
-      }).toThrowError(/not included in the list/);
+      badge.rendered(badgeRenderedParams);
+      expectItReportsError(/not included in the list/);
     });
 
-    it('raises an error if content type is not supplied', () => {
+    it('reports an error if content type is not supplied', () => {
       badgeRenderedParams.contentType = undefined;
-
-      expect(() => {
-        badge.rendered(badgeRenderedParams);
-      }).toThrowError(/Content type/);
+      badge.rendered(badgeRenderedParams);
+      expectItReportsError(/Content type/);
     });
 
-    it('raises an error if content type is not valid', () => {
+    it('reports an error if content type is not valid', () => {
       badgeRenderedParams.contentType = 'NOT_A_REAL_CONTENT_TYPE';
-
-      expect(() => {
-        badge.rendered(badgeRenderedParams);
-      }).toThrowError(/not included in the list/);
+      badge.rendered(badgeRenderedParams);
+      expectItReportsError(/not included in the list/);
     });
 
-    it('raises an error if trkref is not supplied', () => {
+    it('reports an error if trkref is not supplied', () => {
       badgeRenderedParams.trkref = undefined;
-
-      expect(() => {
-        badge.rendered(badgeRenderedParams);
-      }).toThrowError(/Trkref/);
+      badge.rendered(badgeRenderedParams);
+      expectItReportsError(/Trkref/);
     });
 
     it('uses TRKREF from the root scope when not provided as argument', () => {
@@ -95,12 +91,10 @@ describe('lib/events/badge', () => {
       );
     });
 
-    it('raises an error if ctaPageUse is not valid', () => {
+    it('reports an error if ctaPageUse is not valid', () => {
       badgeRenderedParams.ctaPageUse = 'NOT_A_REAL_PAGE_USE';
-
-      expect(() => {
-        badge.rendered(badgeRenderedParams);
-      }).toThrowError(/not included in the list/);
+      badge.rendered(badgeRenderedParams);
+      expectItReportsError(/not included in the list/);
     });
 
     it('sorts and stringifies reviewable context', () => {
@@ -205,20 +199,16 @@ describe('lib/events/badge', () => {
       expect(snowplow).toHaveBeenCalled();
     });
 
-    it('raises an error if trkref is not supplied', () => {
+    it('reports an error if trkref is not supplied', () => {
       badgeSeenParams.trkref = undefined;
-
-      expect(() => {
-        badge.seen(badgeSeenParams);
-      }).toThrowError(/Trkref/);
+      badge.seen(badgeSeenParams);
+      expectItReportsError(/Trkref/);
     });
 
-    it('raises an error if badge type is not supplied', () => {
+    it('reports an error if badge type is not supplied', () => {
       badgeSeenParams.badge_type = undefined;
-
-      expect(() => {
-        badge.seen(badgeSeenParams);
-      }).toThrowError(/Badge type/);
+      badge.seen(badgeSeenParams);
+      expectItReportsError(/Badge type/);
     });
   });
 });

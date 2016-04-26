@@ -3,9 +3,16 @@ import experiencesInjector from 'inject!lib/events/experiences';
 describe('lib/events/experiences', () => {
   let experiences;
   let snowplow;
+  let consoleError;
+
+  function expectItReportsError(matchMessage) {
+    expect(consoleError).toHaveBeenCalledWith(jasmine.stringMatching(matchMessage));
+  }
+
 
   beforeEach(() => {
     snowplow = jasmine.createSpy('snowplow');
+    consoleError = spyOn(console, 'error');
     const Experiences = experiencesInjector({
       '../snowplow': snowplow,
     }).default;
@@ -28,28 +35,22 @@ describe('lib/events/experiences', () => {
       expect(snowplow).toHaveBeenCalled();
     });
 
-    it('raises an error if client id is not supplied', () => {
+    it('reports an error if client id is not supplied', () => {
       dockToggledParams.client_id = undefined;
-
-      expect(() => {
-        experiences.dockToggled(dockToggledParams);
-      }).toThrowError(/Client id/);
+      experiences.dockToggled(dockToggledParams);
+      expectItReportsError('Client id');
     });
 
-    it('raises an error if client id is not a valid UUID', () => {
+    it('reports an error if client id is not a valid UUID', () => {
       dockToggledParams.client_id = 'NOT_A_REAL_CLIENT_ID';
-
-      expect(() => {
-        experiences.dockToggled(dockToggledParams);
-      }).toThrowError();
+      experiences.dockToggled(dockToggledParams);
+      expectItReportsError('Client id');
     });
 
-    it('raises an error if open is not supplied', () => {
+    it('reports an error if open is not supplied', () => {
       dockToggledParams.open = undefined;
-
-      expect(() => {
-        experiences.dockToggled(dockToggledParams);
-      }).toThrowError(/Open/);
+      experiences.dockToggled(dockToggledParams);
+      expectItReportsError('Open');
     });
 
     it('includes a JSON-encoded string of the options given', () => {
