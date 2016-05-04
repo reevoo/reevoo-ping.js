@@ -1,4 +1,5 @@
 import badgeInjector from 'inject!lib/events/badge';
+import omit from 'object.omit';
 
 describe('lib/events/badge', () => {
   let Badge;
@@ -28,10 +29,11 @@ describe('lib/events/badge', () => {
       badgeRenderedParams = {
         hitType: 'impression',
         trkref: 'TRKREF',
-        sku: 'SKU',
+        reviewableContext: { sku: 'SKU' },
         contentType: 'reviewable',
         ctaPageUse: 'single_reviewable',
         ctaStyle: 'terry',
+        implementation: 'link',
         averageScore: 9.2,
       };
     });
@@ -39,9 +41,15 @@ describe('lib/events/badge', () => {
     it('calls Snowplow', () => {
       badge.rendered(badgeRenderedParams);
       expect(snowplow).toHaveBeenCalledWith(
-        jasmine.anything(),
+        'trackUnstructEvent',
         jasmine.objectContaining({
-          data: badgeRenderedParams,
+          schema: 'iglu:com.reevoo/badge_event/jsonschema/1-0-0',
+          data: jasmine.objectContaining({
+            ...omit(badgeRenderedParams, 'averageScore', 'reviewableContext'),
+            eventType: 'rendered',
+            reviewableContext: '{"sku":"SKU"}',
+            additionalProperties: '{"averageScore":9.2}',
+          }),
         }),
       );
     });
@@ -177,38 +185,6 @@ describe('lib/events/badge', () => {
           })
         );
       });
-    });
-  });
-
-  describe('.seen', () => {
-    let badgeSeenParams;
-
-    beforeEach(() => {
-      badgeSeenParams = {
-        trkref: 'TRKREF',
-        sku: 'SKU',
-        average_score: 9.2,
-        badge_type: 'product_reviews',
-        badge_variant: 'default',
-        badge_name: 'terry',
-      };
-    });
-
-    it('calls Snowplow', () => {
-      badge.seen(badgeSeenParams);
-      expect(snowplow).toHaveBeenCalled();
-    });
-
-    it('reports an error if trkref is not supplied', () => {
-      badgeSeenParams.trkref = undefined;
-      badge.seen(badgeSeenParams);
-      expectItReportsError(/Trkref/);
-    });
-
-    it('reports an error if badge type is not supplied', () => {
-      badgeSeenParams.badge_type = undefined;
-      badge.seen(badgeSeenParams);
-      expectItReportsError(/Badge type/);
     });
   });
 });
