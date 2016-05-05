@@ -22,11 +22,11 @@ describe('lib/events/badge', () => {
   });
 
 
-  describe('.rendered', () => {
-    let badgeRenderedParams;
+  describe('.track', () => {
+    let badgeEventParams;
 
     beforeEach(() => {
-      badgeRenderedParams = {
+      badgeEventParams = {
         hitType: 'impression',
         trkref: 'TRKREF',
         reviewableContext: { sku: 'SKU' },
@@ -39,13 +39,13 @@ describe('lib/events/badge', () => {
     });
 
     it('calls Snowplow', () => {
-      badge.rendered(badgeRenderedParams);
+      badge.rendered(badgeEventParams);
       expect(snowplow).toHaveBeenCalledWith(
         'trackUnstructEvent',
         jasmine.objectContaining({
           schema: 'iglu:com.reevoo/badge_event/jsonschema/1-0-0',
           data: jasmine.objectContaining({
-            ...omit(badgeRenderedParams, 'averageScore', 'reviewableContext'),
+            ...omit(badgeEventParams, 'averageScore', 'reviewableContext'),
             eventType: 'rendered',
             reviewableContext: '{"sku":"SKU"}',
             additionalProperties: '{"averageScore":9.2}',
@@ -55,40 +55,40 @@ describe('lib/events/badge', () => {
     });
 
     it('reports an error if hit type is not supplied', () => {
-      badgeRenderedParams.hitType = undefined;
-      badge.rendered(badgeRenderedParams);
+      badgeEventParams.hitType = undefined;
+      badge.rendered(badgeEventParams);
       expectItReportsError(/Hit type/);
     });
 
     it('reports an error if hit type is not valid', () => {
-      badgeRenderedParams.hitType = 'NOT_A_REAL_HIT_TYPE';
-      badge.rendered(badgeRenderedParams);
+      badgeEventParams.hitType = 'NOT_A_REAL_HIT_TYPE';
+      badge.rendered(badgeEventParams);
       expectItReportsError(/not included in the list/);
     });
 
     it('reports an error if content type is not supplied', () => {
-      badgeRenderedParams.contentType = undefined;
-      badge.rendered(badgeRenderedParams);
+      badgeEventParams.contentType = undefined;
+      badge.rendered(badgeEventParams);
       expectItReportsError(/Content type/);
     });
 
     it('reports an error if content type is not valid', () => {
-      badgeRenderedParams.contentType = 'NOT_A_REAL_CONTENT_TYPE';
-      badge.rendered(badgeRenderedParams);
+      badgeEventParams.contentType = 'NOT_A_REAL_CONTENT_TYPE';
+      badge.rendered(badgeEventParams);
       expectItReportsError(/not included in the list/);
     });
 
     it('reports an error if trkref is not supplied', () => {
-      badgeRenderedParams.trkref = undefined;
-      badge.rendered(badgeRenderedParams);
+      badgeEventParams.trkref = undefined;
+      badge.rendered(badgeEventParams);
       expectItReportsError(/Trkref/);
     });
 
     it('uses TRKREF from the root scope when not provided as argument', () => {
-      badgeRenderedParams.trkref = undefined;
+      badgeEventParams.trkref = undefined;
       badge = new Badge('MY_TRKREF');
 
-      badge.rendered(badgeRenderedParams);
+      badge.rendered(badgeEventParams);
       expect(snowplow).toHaveBeenCalledWith(
         jasmine.anything(),
         jasmine.objectContaining({
@@ -100,13 +100,13 @@ describe('lib/events/badge', () => {
     });
 
     it('reports an error if ctaPageUse is not valid', () => {
-      badgeRenderedParams.ctaPageUse = 'NOT_A_REAL_PAGE_USE';
-      badge.rendered(badgeRenderedParams);
+      badgeEventParams.ctaPageUse = 'NOT_A_REAL_PAGE_USE';
+      badge.rendered(badgeEventParams);
       expectItReportsError(/not included in the list/);
     });
 
     it('sorts and stringifies reviewable context', () => {
-      badge.rendered({ ...badgeRenderedParams, reviewableContext: { model: 'Focus', manufacturer: 'Ford' }});
+      badge.rendered({ ...badgeEventParams, reviewableContext: { model: 'Focus', manufacturer: 'Ford' }});
 
       expect(snowplow).toHaveBeenCalledWith(
         jasmine.anything(),
@@ -120,7 +120,7 @@ describe('lib/events/badge', () => {
 
     describe('determines CTA page use', () => {
       it('uses multi_reviewable if badgeVariant contains listing', () => {
-        badge.rendered({ ...badgeRenderedParams, ctaPageUse: undefined, badgeVariant: 'my_listing123' });
+        badge.rendered({ ...badgeEventParams, ctaPageUse: undefined, badgeVariant: 'my_listing123' });
 
         expect(snowplow).toHaveBeenCalledWith(
           jasmine.anything(),
@@ -133,7 +133,7 @@ describe('lib/events/badge', () => {
       });
 
       it('uses multi_reviewable if badgeVariant contains category', () => {
-        badge.rendered({ ...badgeRenderedParams, ctaPageUse: undefined, badgeVariant: 'my_category123' });
+        badge.rendered({ ...badgeEventParams, ctaPageUse: undefined, badgeVariant: 'my_category123' });
 
         expect(snowplow).toHaveBeenCalledWith(
           jasmine.anything(),
@@ -146,7 +146,7 @@ describe('lib/events/badge', () => {
       });
 
       it('uses single_reviewable otherwise', () => {
-        badge.rendered({ ...badgeRenderedParams, ctaPageUse: undefined, badgeVariant: 'my_foo123' });
+        badge.rendered({ ...badgeEventParams, ctaPageUse: undefined, badgeVariant: 'my_foo123' });
 
         expect(snowplow).toHaveBeenCalledWith(
           jasmine.anything(),
@@ -161,7 +161,7 @@ describe('lib/events/badge', () => {
 
     describe('determines CTA style', () => {
       it('uses badgeName if available', () => {
-        badge.rendered({ ...badgeRenderedParams, ctaStyle: undefined, badgeName: 'my_badge', badgeVariant: 'default' });
+        badge.rendered({ ...badgeEventParams, ctaStyle: undefined, badgeName: 'my_badge', badgeVariant: 'default' });
 
         expect(snowplow).toHaveBeenCalledWith(
           jasmine.anything(),
@@ -174,7 +174,7 @@ describe('lib/events/badge', () => {
       });
 
       it('uses badgeVariant if badgeName not available', () => {
-        badge.rendered({ ...badgeRenderedParams, ctaStyle: undefined, badgeName: undefined, badgeVariant: 'default' });
+        badge.rendered({ ...badgeEventParams, ctaStyle: undefined, badgeName: undefined, badgeVariant: 'default' });
 
         expect(snowplow).toHaveBeenCalledWith(
           jasmine.anything(),
@@ -184,6 +184,21 @@ describe('lib/events/badge', () => {
             }),
           })
         );
+      });
+    });
+  });
+
+
+  describe('shortcut methods', () => {
+    const testParams = { foo: 'bar '};
+
+    ['rendered', 'seen', 'clicked'].forEach((eventType) => {
+      describe(`.${eventType}`, () => {
+        it('calls track method', () => {
+          const trackMethod = spyOn(badge, 'track');
+          badge[eventType](testParams);
+          expect(trackMethod).toHaveBeenCalledWith(eventType, testParams);
+        });
       });
     });
   });
