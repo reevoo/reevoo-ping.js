@@ -52,5 +52,9 @@ describe('lib/reevoo-ping', () => {
     it('has experiences events factory', () => {
       expect(ping.experiences).toBeDefined();
     });
+
+    it('has conversion events factory', () => {
+      expect(ping.conversion).toBeDefined();
+    });
   });
 });
