@@ -119,40 +119,66 @@ describe('lib/events/badge', () => {
     });
 
     describe('determines CTA page use', () => {
-      it('uses multi_reviewable if badgeVariant contains listing', () => {
+      it('uses category if badgeVariant contains listing', () => {
         badge.rendered({ ...badgeEventParams, ctaPageUse: undefined, badgeVariant: 'my_listing123' });
 
         expect(snowplow).toHaveBeenCalledWith(
           jasmine.anything(),
           jasmine.objectContaining({
             data: jasmine.objectContaining({
-              ctaPageUse: 'multi_reviewable',
+              ctaPageUse: 'category',
             }),
           })
         );
       });
 
-      it('uses multi_reviewable if badgeVariant contains category', () => {
+      it('uses category if badgeVariant contains category', () => {
         badge.rendered({ ...badgeEventParams, ctaPageUse: undefined, badgeVariant: 'my_category123' });
 
         expect(snowplow).toHaveBeenCalledWith(
           jasmine.anything(),
           jasmine.objectContaining({
             data: jasmine.objectContaining({
-              ctaPageUse: 'multi_reviewable',
+              ctaPageUse: 'category',
             }),
           })
         );
       });
 
-      it('uses single_reviewable otherwise', () => {
+      it('uses search if badgeVariant contains search', () => {
+        badge.rendered({ ...badgeEventParams, ctaPageUse: undefined, badgeVariant: 'supersearch_lol' });
+
+        expect(snowplow).toHaveBeenCalledWith(
+          jasmine.anything(),
+          jasmine.objectContaining({
+            data: jasmine.objectContaining({
+              ctaPageUse: 'search',
+            }),
+          })
+        );
+      });
+
+      it('uses homepage if badgeVariant contains homepage', () => {
+        badge.rendered({ ...badgeEventParams, ctaPageUse: undefined, badgeVariant: 'homepage_foo' });
+
+        expect(snowplow).toHaveBeenCalledWith(
+          jasmine.anything(),
+          jasmine.objectContaining({
+            data: jasmine.objectContaining({
+              ctaPageUse: 'homepage',
+            }),
+          })
+        );
+      });
+
+      it('uses product_primary otherwise', () => {
         badge.rendered({ ...badgeEventParams, ctaPageUse: undefined, badgeVariant: 'my_foo123' });
 
         expect(snowplow).toHaveBeenCalledWith(
           jasmine.anything(),
           jasmine.objectContaining({
             data: jasmine.objectContaining({
-              ctaPageUse: 'single_reviewable',
+              ctaPageUse: 'product_primary',
             }),
           })
         );
