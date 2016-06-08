@@ -19,7 +19,7 @@ describe('lib/reevoo-ping', () => {
       ping = new ReevooPing.Client('app-name');
       expect(snowplow).toHaveBeenCalledWith(
         'newTracker',
-        jasmine.stringMatching(/^rv\d{6}$/),
+        'app-name',
         COLLECTOR_URI,
         { ...defaultSnowplowConfig, appId: 'app-name' }
       );
@@ -29,7 +29,7 @@ describe('lib/reevoo-ping', () => {
       ping = new ReevooPing.Client('app-name', {}, { pageUnloadTimer: 24 });
       expect(snowplow).toHaveBeenCalledWith(
         'newTracker',
-        jasmine.stringMatching(/^rv\d{6}$/),
+        'app-name',
         COLLECTOR_URI,
         { ...defaultSnowplowConfig, appId: 'app-name', pageUnloadTimer: 24 }
       );
@@ -41,20 +41,49 @@ describe('lib/reevoo-ping', () => {
       ping = new ReevooPing.Client('app-name', { trkref: 'TRKREF' });
     });
 
-    it('has page events factory', () => {
+    it('responds to #page', () => {
       expect(ping.page).toBeDefined();
     });
 
-    it('has badge events factory', () => {
+    it('responds to #badge', () => {
       expect(ping.badge).toBeDefined();
     });
 
-    it('has experiences events factory', () => {
+    it('responds to #experiences', () => {
       expect(ping.experiences).toBeDefined();
     });
 
-    it('has conversion events factory', () => {
+    it('responds to #conversion', () => {
       expect(ping.conversion).toBeDefined();
+    });
+
+    describe('#trackEvent', () => {
+      it('tracks generic events with type property', () => {
+        ping.trackEvent({ type: 'TYPE', something: 'bar', abc: 12 });
+        expect(snowplow.calls.count()).toEqual(2); // first is tracker init
+        expect(snowplow.calls.argsFor(1)).toEqual(['trackUnstructEvent:app-name', {
+          schema: 'iglu:com.reevoo/generic_event/jsonschema/1-0-0',
+          data: jasmine.objectContaining({
+            eventType: 'TYPE',
+            trkref: 'TRKREF',
+            properties: '{"abc":12,"something":"bar"}',
+          }),
+        }]);
+      });
+
+      it('does not track generic events without type property', () => {
+        ping.trackEvent({ something: 'bar', abc: 12 });
+        expect(snowplow.calls.count()).toEqual(1); // just tracker init
+      });
+
+      it('allows override trkref', () => {
+        ping.trackEvent({ type: 'TYPE', trkref: 'OTHER_TRKREF' });
+        expect(snowplow.calls.count()).toEqual(2); // first is tracker init
+        expect(snowplow.calls.argsFor(1)).toEqual(['trackUnstructEvent:app-name', {
+          schema: 'iglu:com.reevoo/generic_event/jsonschema/1-0-0',
+          data: jasmine.objectContaining({ trkref: 'OTHER_TRKREF' }),
+        }]);
+      });
     });
   });
 });
