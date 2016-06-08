@@ -1,4 +1,4 @@
-import experiencesInjector from 'inject!lib/events/experiences';
+import Experiences from 'lib/events/experiences';
 
 describe('lib/events/experiences', () => {
   let experiences;
@@ -13,10 +13,7 @@ describe('lib/events/experiences', () => {
   beforeEach(() => {
     snowplow = jasmine.createSpy('snowplow');
     consoleError = spyOn(console, 'error');
-    const Experiences = experiencesInjector({
-      '../snowplow': snowplow,
-    }).default;
-    experiences = new Experiences();
+    experiences = new Experiences(snowplow);
   });
 
   describe('.button_click', () => {

@@ -1,8 +1,7 @@
-import badgeInjector from 'inject!lib/events/badge';
+import Badge from 'lib/events/badge';
 import omit from 'object.omit';
 
 describe('lib/events/badge', () => {
-  let Badge;
   let badge;
   let snowplow;
   let consoleError;
@@ -14,11 +13,7 @@ describe('lib/events/badge', () => {
   beforeEach(() => {
     snowplow = jasmine.createSpy('snowplow');
     consoleError = spyOn(console, 'error');
-    Badge = badgeInjector({
-      '../snowplow': snowplow,
-    }).default;
-
-    badge = new Badge();
+    badge = new Badge(snowplow);
   });
 
 
@@ -86,7 +81,7 @@ describe('lib/events/badge', () => {
 
     it('uses TRKREF from the root scope when not provided as argument', () => {
       badgeEventParams.trkref = undefined;
-      badge = new Badge('MY_TRKREF');
+      badge = new Badge(snowplow, 'MY_TRKREF');
 
       badge.rendered(badgeEventParams);
       expect(snowplow).toHaveBeenCalledWith(

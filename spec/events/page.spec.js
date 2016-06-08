@@ -1,4 +1,4 @@
-import pageInjector from 'inject!lib/events/page';
+import Page from 'lib/events/page';
 
 describe('lib/events/page', () => {
   let page;
@@ -6,11 +6,7 @@ describe('lib/events/page', () => {
 
   beforeEach(() => {
     snowplow = jasmine.createSpy('snowplow');
-    const Page = pageInjector({
-      '../snowplow': snowplow,
-    }).default;
-
-    page = new Page();
+    page = new Page(snowplow);
   });
 
   describe('.viewed', () => {

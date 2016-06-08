@@ -1,8 +1,7 @@
-import conversionInjector from 'inject!lib/events/conversion';
+import Conversion from 'lib/events/conversion';
 import omit from 'object.omit';
 
 describe('lib/events/conversion', () => {
-  let Conversion;
   let conversion;
   let snowplow;
   let consoleError;
@@ -14,11 +13,7 @@ describe('lib/events/conversion', () => {
   beforeEach(() => {
     snowplow = jasmine.createSpy('snowplow');
     consoleError = spyOn(console, 'error');
-    Conversion = conversionInjector({
-      '../snowplow': snowplow,
-    }).default;
-
-    conversion = new Conversion();
+    conversion = new Conversion(snowplow);
   });
 
 
@@ -62,7 +57,7 @@ describe('lib/events/conversion', () => {
 
     it('uses TRKREF from the root scope when not provided as argument', () => {
       conversionEventParams.trkref = undefined;
-      conversion = new Conversion('MY_TRKREF');
+      conversion = new Conversion(snowplow, 'MY_TRKREF');
 
       conversion.track('purchase', conversionEventParams);
       expect(snowplow).toHaveBeenCalledWith(

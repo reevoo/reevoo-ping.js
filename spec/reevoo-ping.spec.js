@@ -19,7 +19,7 @@ describe('lib/reevoo-ping', () => {
       ping = new ReevooPing.Client('app-name');
       expect(snowplow).toHaveBeenCalledWith(
         'newTracker',
-        'reevoo',
+        jasmine.stringMatching(/^rv\d{6}$/),
         COLLECTOR_URI,
         { ...defaultSnowplowConfig, appId: 'app-name' }
       );
@@ -29,7 +29,7 @@ describe('lib/reevoo-ping', () => {
       ping = new ReevooPing.Client('app-name', {}, { pageUnloadTimer: 24 });
       expect(snowplow).toHaveBeenCalledWith(
         'newTracker',
-        'reevoo',
+        jasmine.stringMatching(/^rv\d{6}$/),
         COLLECTOR_URI,
         { ...defaultSnowplowConfig, appId: 'app-name', pageUnloadTimer: 24 }
       );
