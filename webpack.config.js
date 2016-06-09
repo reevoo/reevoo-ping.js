@@ -12,8 +12,6 @@ module.exports = {
     path: path.join(__dirname, 'dist'),
     filename: 'reevoo-ping.js',
     library: 'ReevooPing',
-    libraryTarget: 'umd',
-    umdNamedDefine: true,
   },
 
   // Define loaders for webpack transpilation.
