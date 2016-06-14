@@ -1,13 +1,13 @@
 {
   "name": "reevoo-ping.js",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "description": "Reevoo-specific event sending client.",
   "main": "dist/reevoo-ping.js",
   "files": ["dist", "lib"],
   "scripts": {
     "build:dev": "webpack -d",
     "build:dev:watch": "webpack -d --watch",
-    "build:prod": "REEVOO_ENV=production webpack -p",
+    "build:prod": "REEVOO_ENV=production webpack",
     "test": "karma start karma.config.js --single-run",
     "test:watch": "karma start karma.config.js",
     "serve": "webpack-dev-server --content-base ./demo --inline",

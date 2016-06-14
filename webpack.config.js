@@ -12,6 +12,7 @@ module.exports = {
     path: path.join(__dirname, 'dist'),
     filename: 'reevoo-ping.js',
     library: 'ReevooPing',
+    libraryTarget: 'commonjs2',
   },
 
   // Define loaders for webpack transpilation.
