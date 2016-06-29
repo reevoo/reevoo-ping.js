@@ -21,7 +21,6 @@ describe('lib/events/experiences', () => {
 
     beforeEach(() => {
       dockToggledParams = {
-        client_id: '72f3b8f7-05c6-4cc0-8d43-b72d1a656899',
         open: true,
         filters: ['foo', 'bar'],
       };
@@ -30,18 +29,6 @@ describe('lib/events/experiences', () => {
     it('calls Snowplow', () => {
       experiences.dockToggled(dockToggledParams);
       expect(snowplow).toHaveBeenCalled();
-    });
-
-    it('reports an error if client id is not supplied', () => {
-      dockToggledParams.client_id = undefined;
-      experiences.dockToggled(dockToggledParams);
-      expectItReportsError('Client id');
-    });
-
-    it('reports an error if client id is not a valid UUID', () => {
-      dockToggledParams.client_id = 'NOT_A_REAL_CLIENT_ID';
-      experiences.dockToggled(dockToggledParams);
-      expectItReportsError('Client id');
     });
 
     it('reports an error if open is not supplied', () => {

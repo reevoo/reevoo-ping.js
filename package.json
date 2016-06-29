@@ -1,6 +1,6 @@
 {
   "name": "reevoo-ping.js",
-  "version": "2.4.1",
+  "version": "2.4.2",
   "description": "Reevoo-specific event sending client.",
   "main": "dist/reevoo-ping.js",
   "files": ["dist", "lib"],
