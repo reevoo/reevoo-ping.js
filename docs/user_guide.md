@@ -87,7 +87,6 @@ Supported events:
 
 ```js
 reevooPing.experiences.dockToggled({
-  client_id: '72f3b8f7-05c6-4cc0-8d43-b72d1a656899', // required string value
   open: true,                                        // required boolean value
   filters: ['foo', 'bar'],                           // required array value
 });
