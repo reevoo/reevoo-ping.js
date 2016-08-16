@@ -6,24 +6,24 @@
 
 ## Development
 
-Grab [NVM](https://github.com/creationix/nvm) and go:
+Grab [nodenv](https://github.com/nodenv/nodenv) and go:
 
 ```sh
-nvm install
-nvm exec npm install
+nodenv install
+npm install
 ```
 
 You should be ready to go! Check by running the tests:
 
 ```sh
-nvm exec npm test
+npm test
 ```
 
 ### :zap: :zap: DEV MODE :zap: :zap:
 
-Run this to :zap: :zap: **ENTER DEV MODE:** :zap: :zap: 
+Run this to :zap: :zap: **ENTER DEV MODE:** :zap: :zap:
 ```sh
-nvm exec npm run watch
+npm run watch
 ```
 
 In Dev Mode:
@@ -55,12 +55,12 @@ The test server isn't very good at shutting itself down correctly. Use `killall 
 2. Add the event and specs to this repository.
 3. [Update the version number](https://github.com/reevoo/reevoo-ping.js/blob/master/package.json) in accordance with [Semantic Versioning](http://semver.org/). (Hint: A new event is likely to be a *minor* version bump.) [Tag the commit.](https://github.com/reevoo/reevoo-ping.js/releases)
 
-## Building 
+## Building
 
 Ready to go? Then build for production!
 
 ```sh
-nvm exec npm run build:prod
+npm run build:prod
 ```
 
 This will build a production-ready file and place it in the `dist` folder. (Do not commit this!)

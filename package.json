@@ -1,9 +1,12 @@
 {
   "name": "reevoo-ping.js",
-  "version": "2.4.2",
+  "version": "2.5.0",
   "description": "Reevoo-specific event sending client.",
   "main": "dist/reevoo-ping.js",
-  "files": ["dist", "lib"],
+  "files": [
+    "dist",
+    "lib"
+  ],
   "scripts": {
     "build:dev": "webpack -d",
     "build:dev:watch": "webpack -d --watch",
