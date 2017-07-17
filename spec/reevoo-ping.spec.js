@@ -84,6 +84,18 @@ describe('lib/reevoo-ping', () => {
           data: jasmine.objectContaining({ trkref: 'OTHER_TRKREF' }),
         }]);
       });
+
+      it('encodes URL if contains charactes violating RFC 2396', () => {
+        const win = { location: { href: 'http://sample.com/!"lol"!' } };
+        ping = new ReevooPing.Client('app-name', { trkref: 'TRKREF' }, {}, win);
+        ping.trackEvent({ type: 'TYPE', trkref: 'OTHER_TRKREF' });
+        expect(snowplow.calls.count()).toEqual(4); // first two are tracker init
+        expect(snowplow.calls.argsFor(2)).toEqual(['setCustomUrl', 'http://sample.com/%21%22lol%22%21']);
+        expect(snowplow.calls.argsFor(3)).toEqual(['trackUnstructEvent:app-name', {
+          schema: 'iglu:com.reevoo/generic_event/jsonschema/1-0-0',
+          data: jasmine.objectContaining({ trkref: 'OTHER_TRKREF' }),
+        }]);
+      });
     });
   });
 });
