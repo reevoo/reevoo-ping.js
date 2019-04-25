@@ -60,7 +60,7 @@ module.exports = function(config) {
     reporters: ['dots'],
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['PhantomJS'],
+    browsers: ['ChromeHeadless'],
     singleRun: false,
 
   });
