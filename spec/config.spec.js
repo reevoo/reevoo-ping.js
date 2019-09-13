@@ -1,7 +1,7 @@
-import * as config from 'lib/config';
+import { COLLECTOR_URI } from '../lib/config'
 
 describe('lib/config', () => {
   it('has settings available', () => {
-    expect(config.COLLECTOR_URI).toBeDefined();
-  });
-});
+    expect(COLLECTOR_URI).toBeDefined()
+  })
+})
