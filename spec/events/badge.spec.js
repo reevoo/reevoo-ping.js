@@ -1,24 +1,23 @@
-import Badge from 'lib/events/badge';
-import omit from 'object.omit';
+import omit from 'object.omit'
+import Badge from '../../lib/events/badge'
 
 describe('lib/events/badge', () => {
-  let badge;
-  let snowplow;
-  let consoleError;
+  let badge
+  let snowplow
+  let consoleError
 
   function expectItReportsError(matchMessage) {
-    expect(consoleError).toHaveBeenCalledWith(jasmine.stringMatching(matchMessage));
+    expect(consoleError).toHaveBeenCalledWith(jasmine.stringMatching(matchMessage))
   }
 
   beforeEach(() => {
-    snowplow = jasmine.createSpy('snowplow');
-    consoleError = spyOn(console, 'error');
-    badge = new Badge(snowplow);
-  });
-
+    snowplow = jasmine.createSpy('snowplow')
+    consoleError = spyOn(console, 'error')
+    badge = new Badge(snowplow)
+  })
 
   describe('.track', () => {
-    let badgeEventParams;
+    let badgeEventParams
 
     beforeEach(() => {
       badgeEventParams = {
@@ -30,11 +29,11 @@ describe('lib/events/badge', () => {
         ctaStyle: 'terry',
         implementation: 'link',
         averageScore: 9.2,
-      };
-    });
+      }
+    })
 
     it('calls Snowplow', () => {
-      badge.rendered(badgeEventParams);
+      badge.rendered(badgeEventParams)
       expect(snowplow).toHaveBeenCalledWith(
         'trackUnstructEvent',
         jasmine.objectContaining({
@@ -45,45 +44,45 @@ describe('lib/events/badge', () => {
             reviewableContext: '{"sku":"SKU"}',
             additionalProperties: '{"averageScore":9.2}',
           }),
-        }),
-      );
-    });
+        })
+      )
+    })
 
     it('reports an error if hit type is not supplied', () => {
-      badgeEventParams.hitType = undefined;
-      badge.rendered(badgeEventParams);
-      expectItReportsError(/Hit type/);
-    });
+      badgeEventParams.hitType = undefined
+      badge.rendered(badgeEventParams)
+      expectItReportsError(/Hit type/)
+    })
 
     it('reports an error if hit type is not valid', () => {
-      badgeEventParams.hitType = 'NOT_A_REAL_HIT_TYPE';
-      badge.rendered(badgeEventParams);
-      expectItReportsError(/not included in the list/);
-    });
+      badgeEventParams.hitType = 'NOT_A_REAL_HIT_TYPE'
+      badge.rendered(badgeEventParams)
+      expectItReportsError(/not included in the list/)
+    })
 
     it('reports an error if content type is not supplied', () => {
-      badgeEventParams.contentType = undefined;
-      badge.rendered(badgeEventParams);
-      expectItReportsError(/Content type/);
-    });
+      badgeEventParams.contentType = undefined
+      badge.rendered(badgeEventParams)
+      expectItReportsError(/Content type/)
+    })
 
     it('reports an error if content type is not valid', () => {
-      badgeEventParams.contentType = 'NOT_A_REAL_CONTENT_TYPE';
-      badge.rendered(badgeEventParams);
-      expectItReportsError(/not included in the list/);
-    });
+      badgeEventParams.contentType = 'NOT_A_REAL_CONTENT_TYPE'
+      badge.rendered(badgeEventParams)
+      expectItReportsError(/not included in the list/)
+    })
 
     it('reports an error if trkref is not supplied', () => {
-      badgeEventParams.trkref = undefined;
-      badge.rendered(badgeEventParams);
-      expectItReportsError(/Trkref/);
-    });
+      badgeEventParams.trkref = undefined
+      badge.rendered(badgeEventParams)
+      expectItReportsError(/Trkref/)
+    })
 
     it('uses TRKREF from the root scope when not provided as argument', () => {
-      badgeEventParams.trkref = undefined;
-      badge = new Badge(snowplow, 'MY_TRKREF');
+      badgeEventParams.trkref = undefined
+      badge = new Badge(snowplow, 'MY_TRKREF')
 
-      badge.rendered(badgeEventParams);
+      badge.rendered(badgeEventParams)
       expect(snowplow).toHaveBeenCalledWith(
         jasmine.anything(),
         jasmine.objectContaining({
@@ -91,17 +90,20 @@ describe('lib/events/badge', () => {
             trkref: 'MY_TRKREF',
           }),
         })
-      );
-    });
+      )
+    })
 
     it('reports an error if ctaPageUse is not valid', () => {
-      badgeEventParams.ctaPageUse = 'NOT_A_REAL_PAGE_USE';
-      badge.rendered(badgeEventParams);
-      expectItReportsError(/not included in the list/);
-    });
+      badgeEventParams.ctaPageUse = 'NOT_A_REAL_PAGE_USE'
+      badge.rendered(badgeEventParams)
+      expectItReportsError(/not included in the list/)
+    })
 
     it('sorts and stringifies reviewable context', () => {
-      badge.rendered({ ...badgeEventParams, reviewableContext: { model: 'Focus', manufacturer: 'Ford' }});
+      badge.rendered({
+        ...badgeEventParams,
+        reviewableContext: { model: 'Focus', manufacturer: 'Ford' },
+      })
 
       expect(snowplow).toHaveBeenCalledWith(
         jasmine.anything(),
@@ -110,12 +112,16 @@ describe('lib/events/badge', () => {
             reviewableContext: '{"manufacturer":"Ford","model":"Focus"}',
           }),
         })
-      );
-    });
+      )
+    })
 
     describe('determines CTA page use', () => {
       it('uses category if badgeVariant contains listing', () => {
-        badge.rendered({ ...badgeEventParams, ctaPageUse: undefined, badgeVariant: 'my_listing123' });
+        badge.rendered({
+          ...badgeEventParams,
+          ctaPageUse: undefined,
+          badgeVariant: 'my_listing123',
+        })
 
         expect(snowplow).toHaveBeenCalledWith(
           jasmine.anything(),
@@ -124,11 +130,15 @@ describe('lib/events/badge', () => {
               ctaPageUse: 'category',
             }),
           })
-        );
-      });
+        )
+      })
 
       it('uses category if badgeVariant contains category', () => {
-        badge.rendered({ ...badgeEventParams, ctaPageUse: undefined, badgeVariant: 'my_category123' });
+        badge.rendered({
+          ...badgeEventParams,
+          ctaPageUse: undefined,
+          badgeVariant: 'my_category123',
+        })
 
         expect(snowplow).toHaveBeenCalledWith(
           jasmine.anything(),
@@ -137,11 +147,15 @@ describe('lib/events/badge', () => {
               ctaPageUse: 'category',
             }),
           })
-        );
-      });
+        )
+      })
 
       it('uses search if badgeVariant contains search', () => {
-        badge.rendered({ ...badgeEventParams, ctaPageUse: undefined, badgeVariant: 'supersearch_lol' });
+        badge.rendered({
+          ...badgeEventParams,
+          ctaPageUse: undefined,
+          badgeVariant: 'supersearch_lol',
+        })
 
         expect(snowplow).toHaveBeenCalledWith(
           jasmine.anything(),
@@ -150,11 +164,11 @@ describe('lib/events/badge', () => {
               ctaPageUse: 'search',
             }),
           })
-        );
-      });
+        )
+      })
 
       it('uses homepage if badgeVariant contains homepage', () => {
-        badge.rendered({ ...badgeEventParams, ctaPageUse: undefined, badgeVariant: 'homepage_foo' });
+        badge.rendered({ ...badgeEventParams, ctaPageUse: undefined, badgeVariant: 'homepage_foo' })
 
         expect(snowplow).toHaveBeenCalledWith(
           jasmine.anything(),
@@ -163,11 +177,11 @@ describe('lib/events/badge', () => {
               ctaPageUse: 'homepage',
             }),
           })
-        );
-      });
+        )
+      })
 
       it('uses product_primary otherwise', () => {
-        badge.rendered({ ...badgeEventParams, ctaPageUse: undefined, badgeVariant: 'my_foo123' });
+        badge.rendered({ ...badgeEventParams, ctaPageUse: undefined, badgeVariant: 'my_foo123' })
 
         expect(snowplow).toHaveBeenCalledWith(
           jasmine.anything(),
@@ -176,13 +190,18 @@ describe('lib/events/badge', () => {
               ctaPageUse: 'product_primary',
             }),
           })
-        );
-      });
-    });
+        )
+      })
+    })
 
     describe('determines CTA style', () => {
       it('uses badgeName if available', () => {
-        badge.rendered({ ...badgeEventParams, ctaStyle: undefined, badgeName: 'my_badge', badgeVariant: 'default' });
+        badge.rendered({
+          ...badgeEventParams,
+          ctaStyle: undefined,
+          badgeName: 'my_badge',
+          badgeVariant: 'default',
+        })
 
         expect(snowplow).toHaveBeenCalledWith(
           jasmine.anything(),
@@ -191,11 +210,16 @@ describe('lib/events/badge', () => {
               ctaStyle: 'my_badge',
             }),
           })
-        );
-      });
+        )
+      })
 
       it('uses badgeVariant if badgeName not available', () => {
-        badge.rendered({ ...badgeEventParams, ctaStyle: undefined, badgeName: undefined, badgeVariant: 'default' });
+        badge.rendered({
+          ...badgeEventParams,
+          ctaStyle: undefined,
+          badgeName: undefined,
+          badgeVariant: 'default',
+        })
 
         expect(snowplow).toHaveBeenCalledWith(
           jasmine.anything(),
@@ -204,23 +228,22 @@ describe('lib/events/badge', () => {
               ctaStyle: 'default',
             }),
           })
-        );
-      });
-    });
-  });
-
+        )
+      })
+    })
+  })
 
   describe('shortcut methods', () => {
-    const testParams = { foo: 'bar '};
+    const testParams = { foo: 'bar ' }
 
-    ['rendered', 'seen', 'clicked'].forEach((eventType) => {
+    ;['rendered', 'seen', 'clicked'].forEach((eventType) => {
       describe(`.${eventType}`, () => {
         it('calls track method', () => {
-          const trackMethod = spyOn(badge, 'track');
-          badge[eventType](testParams);
-          expect(trackMethod).toHaveBeenCalledWith(eventType, testParams);
-        });
-      });
-    });
-  });
-});
+          const trackMethod = spyOn(badge, 'track')
+          badge[eventType](testParams)
+          expect(trackMethod).toHaveBeenCalledWith(eventType, testParams)
+        })
+      })
+    })
+  })
+})
