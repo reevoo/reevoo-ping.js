@@ -42,10 +42,6 @@ module.exports = {
         test:    path.join(__dirname, "lib"),
         exclude: /(node_modules)/,
         loader:  "babel-loader"
-      },
-      {
-        test:   /sp\.js$/,
-        loader: "script-loader"
       }
     ]
   },
