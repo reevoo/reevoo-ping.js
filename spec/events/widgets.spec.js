@@ -99,7 +99,7 @@ describe('lib/events/widgets', () => {
   })
 
   describe('shortcut methods', () => {
-    ;['rendered', 'seen', 'clicked', 'scrolled'].forEach((eventType) => {
+    ;['rendered', 'updated', 'seen', 'clicked', 'scrolled'].forEach((eventType) => {
       describe(`.${eventType}`, () => {
         it('calls track method', () => {
           const trackMethod = spyOn(widgets, 'track')
