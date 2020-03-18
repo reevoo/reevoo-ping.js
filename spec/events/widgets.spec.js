@@ -31,7 +31,7 @@ describe('lib/events/widgets', () => {
       expect(snowplow).toHaveBeenCalledWith(
         'trackUnstructEvent',
         jasmine.objectContaining({
-          schema: 'iglu:com.reevoo/widgets_event/jsonschema/1-0-0',
+          schema: 'iglu:com.reevoo/widgets_event/jsonschema/1-0-2',
           data: jasmine.objectContaining({
             ...omit(widgetsEventParams, 'contentAttributes'),
             eventType: 'rendered',
