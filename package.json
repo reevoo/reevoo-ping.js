@@ -15,7 +15,7 @@
     "test:watch": "karma start karma.config.js",
     "serve": "webpack-dev-server --content-base ./demo --inline",
     "watch": "npm run serve & npm run build:dev:watch & npm run test:watch",
-    "prepublish": "npm run build:prod",
+    "prepare": "npm run build:prod",
     "pretty": "prettier --check './{lib,spec}/**/*.js'",
     "pretty:fix": "prettier --write './{lib,spec}/**/*.js'"
   },
